@@ -1,4 +1,4 @@
-package com.example.lenovo.myapplication;
+package com.example.lenovo.myapplication.glide;
 
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
@@ -16,20 +16,21 @@ import android.widget.ImageView;
 
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.lenovo.myapplication.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
-import static com.bumptech.glide.request.RequestOptions.centerCropTransform;
-import static com.example.lenovo.myapplication.Utils.getResponseFromHttpUrl;
+import static com.example.lenovo.myapplication.glide.Utils.getResponseFromHttpUrl;
 
 public class MainActivity extends AppCompatActivity {
+
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     ProgressDialog p;
     ImageView imgView;
@@ -37,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -69,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         //removed async task and applied glide
         /*LoadImageTask asyncTask = new LoadImageTask();
         asyncTask.execute(url);*/
+
     }
 
     @Override
@@ -87,6 +93,12 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "id");
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "name");
+            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
             return true;
         }
 
