@@ -21,5 +21,19 @@ public class User {
         this.pwd = pwd;
     }
 
+    public String getMailId() {
+        return mailId;
+    }
 
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setMailId(String mailId) {
+        this.mailId = mailId;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
 }

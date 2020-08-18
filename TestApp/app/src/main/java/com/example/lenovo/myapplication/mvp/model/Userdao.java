@@ -14,6 +14,9 @@ public interface Userdao {
     @Query("SELECT * FROM user")
     LiveData<List<User>> getAllUsers();
 
-    @Update
+    @Insert
     void insert(User newUser);
+
+    @Query("SELECT * FROM user WHERE MAIL =:mail_id LIMIT 1")
+    User searchIfUserExists(String mail_id);
 }
