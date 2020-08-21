@@ -15,7 +15,7 @@ import androidx.lifecycle.LiveData;
 
 public class LoginPresenter {
     private final IView.ILogin loginView;
-    private boolean isLogIn; // TODO :this is required for what purpose?
+    private boolean isLogIn;
     private final UserRepository userRepo;
 
 
@@ -25,19 +25,18 @@ public class LoginPresenter {
         this.userRepo = userRepo;
     }
 
-    public void validateUserOnLoginBtn(String email, String pwd){
-        User checkUser = new User(email, pwd);
-        if(isValidEmail(email) && isValidPwd(pwd)){
+    public void validateUserOnLoginBtn(User checkUser){
+      //  User checkUser = new User(email, pwd);
+        if(isValidEmail(checkUser.getMailId()) && isValidPwd(checkUser.getPwd())){
             List<User> userList = userRepo.getAllUsers();
 
-            //TODO : how to search in existing user list
-            boolean isUserExisting = userRepo.searchUserMailId(email);
+            boolean isUserExisting = userRepo.searchUserMailId(checkUser.getMailId());
             if(isUserExisting)
                 loginView.onLoginSuccess(checkUser);
             else
-                loginView.onLoginFailure("user not found : " + email , checkUser);
+                loginView.onLoginFailure("user not found : " + checkUser.getMailId());
         }else
-            loginView.onLoginFailure("invalid email or password : " + email, checkUser);
+            loginView.onLoginFailure("invalid email or password : " + checkUser.getMailId());
     }
 
     boolean isValidPwd(String pwd) {
@@ -50,7 +49,15 @@ public class LoginPresenter {
 
     public void createUser(User user){
         if(isValidEmail(user.getMailId()) && isValidPwd(user.getPwd())){
+            boolean isUserExisting = userRepo.searchUserMailId(user.getMailId());
+            if(isUserExisting)
+                loginView.onRegisterFailure("User Already Exists!!! Please Try Login");
+            else
+                loginView.onRegisterSuccess(user, user.getMailId() + " registered and trying to login...");
             userRepo.insert(user);
+        }else{
+            loginView.onRegisterFailure("Invalid User Name or Pwd entered. Username should contain @");
+
         }
 
     }

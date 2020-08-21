@@ -48,19 +48,12 @@ public class LoginPresenterTest {
 
     @Test
     public void testSuccessLogin() {
-        String email = "abc@asas";//mock(String.class);
-        String pwd = "12345678";//mock(String.class);
-        //IView.ILogin loginView = mock(IView.ILogin.class);
-       // User checkUser = mock(User.class); // cant do as only Interfaces can be mocked.
-        User checkUser = getUserInput();
-        userList = userRepo.getAllUsers();
 
+        User checkUser = getUserInput();
         LoginPresenter presenter = new LoginPresenter(loginView,true,userRepo);
 
-        when(presenter.isValidEmail(checkUser.getMailId())).thenReturn(true);
-        when(presenter.isValidPwd(checkUser.getPwd())).thenReturn(true);
         when(userRepo.searchUserMailId(checkUser.getMailId())).thenReturn(true);
-
+        presenter.validateUserOnLoginBtn(checkUser);
 
         verify(loginView).onLoginSuccess(checkUser);
 
@@ -68,26 +61,30 @@ public class LoginPresenterTest {
 
     @Test
     public void testFailureLogin() {
-        String email = "abc@asas";//mock(String.class);
-        String pwd = "12345678";//mock(String.class);
+
         //IView.ILogin loginView = mock(IView.ILogin.class);
         // User checkUser = mock(User.class); // cant do as only Interfaces can be mocked.
-        User checkUser = getUserInput();
+        User checkUser = getUserFailedInput();
 
         //List<User> userList = userRepo.getAllUsers();
 
 
         LoginPresenter presenter = new LoginPresenter(loginView,true,userRepo);
-        when(presenter.isValidEmail(checkUser.getMailId())).thenReturn(false);
-        when(presenter.isValidPwd(checkUser.getPwd())).thenReturn(false);
-        presenter.validateUserOnLoginBtn(checkUser.getMailId(),checkUser.getPwd() );
+        //when(presenter.isValidEmail(checkUser.getMailId())).thenReturn(false);
+        //when(presenter.isValidPwd(checkUser.getPwd())).thenReturn(false);
+        presenter.validateUserOnLoginBtn(checkUser);
         //when(userRepo.searchUserMailId(checkUser.getMailId())).thenReturn(false);
 
-        verify(loginView).onLoginFailure("invalid email or password : " + checkUser.getMailId() , checkUser);
+        //loginView.onLoginFailure("invalid email or password : " + email, checkUser);
+        verify(loginView).onLoginFailure("invalid email or password : " + checkUser.getMailId() );
 
     }
 
     private User getUserInput() {
         return new User("test@gmail.com", "12345678");
+    }
+
+    private User getUserFailedInput() {
+        return new User("test", "12345678");
     }
 }

@@ -6,9 +6,11 @@ public interface IView {
 
     interface ILogin{
         void onLoginSuccess(User user); // passed user exists in DB
-        void onLoginFailure(String errorMsg, User user);
+        void onLoginFailure(String errorMsg);
         void onEnableLogin(User user);
         void onDisableLogin(User user);
+        void onRegisterSuccess(User user,String msg); // passed user exists in DB
+        void onRegisterFailure(String errorMsg);
 
         //
         /*

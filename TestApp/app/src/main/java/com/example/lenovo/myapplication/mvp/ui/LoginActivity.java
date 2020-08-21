@@ -32,7 +32,6 @@ public class LoginActivity extends AppCompatActivity implements IView.ILogin{
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
 
-        //TODO : confirm
         userDao = new UserRepository(getApplication());
         logInPresenter = new LoginPresenter(this, true, userDao);
 
@@ -48,9 +47,9 @@ public class LoginActivity extends AppCompatActivity implements IView.ILogin{
     }
 
     @Override
-    public void onLoginFailure(String errorMsg, User user) {
+    public void onLoginFailure(String errorMsg) {
         Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show();
-        logInPresenter.createUser(user );
+        binding.register.setEnabled(true);
     }
 
     @Override
@@ -63,16 +62,32 @@ public class LoginActivity extends AppCompatActivity implements IView.ILogin{
         binding.login.setEnabled(false);
     }
 
+    @Override
+    public void onRegisterSuccess(User user, String errorMsg) {
+        Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, MainActivity.class));
+    }
+
+    @Override
+    public void onRegisterFailure(String errorMsg) {
+        Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show();
+    }
+
+
     public void onLoginBtnClick(View view){
+        String email = binding.username.getText().toString();
+        String pwd = binding.password.getText().toString();
+        User user = new User(email, pwd );
+        logInPresenter.validateUserOnLoginBtn(user);
+
+    }
+
+    public void onRegisterBtnClick(View view){
         String email = String.valueOf(binding.username.getText());
         String pwd = String.valueOf(binding.password.getText());
-        logInPresenter.validateUserOnLoginBtn(email, pwd);
-        /*if(isLogin){
-            logInPresenter.isValidUser(name_et.getText().toString(), password_et.getText().toString());
-        }
-        else{
-            logInPresenter.createUser(name_et.getText().toString(), password_et.getText().toString(),email_et.getText().toString(),phoneNum_et.getText().toString());
-        }*/
+        User user = new User(email, pwd );
+        logInPresenter.createUser(user);
+
     }
 
     private TextWatcher textWatcher = new TextWatcher(){
