@@ -40,7 +40,7 @@ public class LoginPresenter {
             loginView.onLoginFailure("invalid email or password : " + email, checkUser);
     }
 
-    private boolean isValidPwd(String pwd) {
+    boolean isValidPwd(String pwd) {
         return pwd.length() > 5;
     }
 

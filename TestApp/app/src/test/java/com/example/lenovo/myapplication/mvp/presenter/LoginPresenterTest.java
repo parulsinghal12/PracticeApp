@@ -27,11 +27,12 @@ import static org.mockito.Mockito.when;
 public class LoginPresenterTest {
 
     @Mock
-    UserRepository userRepo;
+    static UserRepository userRepo;
 
     @Mock
     IView.ILogin loginView ; //= mock(IView.ILogin.class);
 
+    static List<User> userList;
 
 
     @Before
@@ -52,12 +53,12 @@ public class LoginPresenterTest {
         //IView.ILogin loginView = mock(IView.ILogin.class);
        // User checkUser = mock(User.class); // cant do as only Interfaces can be mocked.
         User checkUser = getUserInput();
+        userList = userRepo.getAllUsers();
 
-
-        List<User> userList = userRepo.getAllUsers();
         LoginPresenter presenter = new LoginPresenter(loginView,true,userRepo);
 
         when(presenter.isValidEmail(checkUser.getMailId())).thenReturn(true);
+        when(presenter.isValidPwd(checkUser.getPwd())).thenReturn(true);
         when(userRepo.searchUserMailId(checkUser.getMailId())).thenReturn(true);
 
 
@@ -73,14 +74,16 @@ public class LoginPresenterTest {
         // User checkUser = mock(User.class); // cant do as only Interfaces can be mocked.
         User checkUser = getUserInput();
 
-        List<User> userList = userRepo.getAllUsers();
+        //List<User> userList = userRepo.getAllUsers();
 
 
         LoginPresenter presenter = new LoginPresenter(loginView,true,userRepo);
-        when(presenter.isValidEmail(checkUser.getMailId())).thenReturn(true);
-        when(userRepo.searchUserMailId(checkUser.getMailId())).thenReturn(false);
+        when(presenter.isValidEmail(checkUser.getMailId())).thenReturn(false);
+        when(presenter.isValidPwd(checkUser.getPwd())).thenReturn(false);
+        presenter.validateUserOnLoginBtn(checkUser.getMailId(),checkUser.getPwd() );
+        //when(userRepo.searchUserMailId(checkUser.getMailId())).thenReturn(false);
 
-        loginView.onLoginFailure("user not found : " + checkUser.getMailId() , checkUser);
+        verify(loginView).onLoginFailure("invalid email or password : " + checkUser.getMailId() , checkUser);
 
     }
 
