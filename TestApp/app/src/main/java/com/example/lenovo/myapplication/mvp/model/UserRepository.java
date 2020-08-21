@@ -12,18 +12,38 @@ import androidx.lifecycle.LiveData;
 public class UserRepository {
 
     private Userdao userDao;
-    private LiveData<List<User>> mAllUsers;
+    //private LiveData<List<User>> mAllUsers;
 
     public UserRepository(Application application) {
         UserDatabase db = UserDatabase.getDatabase(application);
         userDao = db.getUserDAO();
-        mAllUsers = userDao.getAllUsers();
+        //mAllUsers = userDao.getAllUsers();
     }
 
-    public LiveData<List<User>> getAllUsers() {
+    public List<User> getAllUsers() {
         //mAllUsers = (List<User>) new getUsersAsyncTask(userDao).execute();
+        try {
+            return new getAllUsersTask(userDao).execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-        return mAllUsers;
+    private static class getAllUsersTask extends android.os.AsyncTask<Void, Void, List<User>> {
+
+        private Userdao mAsyncTaskDao;
+
+        getAllUsersTask(Userdao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected List<User> doInBackground(Void... voids) {
+            return mAsyncTaskDao.getAllUsers();
+        }
     }
 
     public void insert (User newUser) {

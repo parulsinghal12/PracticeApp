@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity implements IView.ILogin{
             //binding.login.setEnabled(!TextUtils.isEmpty(binding.username.getText().toString()) || !TextUtils.isEmpty(binding.username.getText().toString()));
             String email = binding.username.getText().toString().trim();
             String pwd = binding.password.getText().toString().trim();
-            //logInPresenter.validateFieldLength(email, pwd);
+            logInPresenter.validateFieldLength(email, pwd);
             //TODO : presenter logic not working here
             binding.login.setEnabled(!email.isEmpty() && !pwd.isEmpty());
         }

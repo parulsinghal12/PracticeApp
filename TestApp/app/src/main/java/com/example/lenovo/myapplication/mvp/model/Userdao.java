@@ -12,7 +12,7 @@ import androidx.room.Update;
 public interface Userdao {
 
     @Query("SELECT * FROM user")
-    LiveData<List<User>> getAllUsers();
+    List<User> getAllUsers();
 
     @Insert
     void insert(User newUser);

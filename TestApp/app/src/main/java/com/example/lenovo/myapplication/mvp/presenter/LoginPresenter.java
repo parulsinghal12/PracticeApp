@@ -28,7 +28,7 @@ public class LoginPresenter {
     public void validateUserOnLoginBtn(String email, String pwd){
         User checkUser = new User(email, pwd);
         if(isValidEmail(email) && isValidPwd(pwd)){
-            LiveData<List<User>> userList = userRepo.getAllUsers();
+            List<User> userList = userRepo.getAllUsers();
 
             //TODO : how to search in existing user list
             boolean isUserExisting = userRepo.searchUserMailId(email);
@@ -44,7 +44,7 @@ public class LoginPresenter {
         return pwd.length() > 5;
     }
 
-    private boolean isValidEmail(String email) {
+    boolean isValidEmail(String email) {
         return email.contains("@");
     }
 
