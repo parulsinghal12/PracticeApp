@@ -2,7 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.lenovo.myapplication">
 
+
+    <permission android:name="com.example.lenovo.myapplication.permission.MYINTENTSERVICE"
+        android:protectionLevel="normal"/>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
 
     <application
         android:allowBackup="true"
@@ -11,6 +19,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+
+        <activity android:name=".services.ui.ServicesActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".retrofit.ui.CricketInfoActivity"
             android:label="@string/title_activity_cricket_info"
@@ -18,14 +35,14 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
         <activity android:name=".mvp.ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
         <activity android:name=".glide.MainActivity">
@@ -38,6 +55,27 @@
             </intent-filter>
             -->
         </activity>
+
+        <service
+            android:name=".services.backend.StartService"
+            android:icon="@drawable/start_service"
+            android:label="start service" />
+        <service
+            android:name=".services.backend.BoundService"
+            android:icon="@drawable/start_service"
+            android:label="start service" />
+        <service
+            android:name=".services.backend.MyIntentService"
+            android:exported="true"
+            android:enabled="true"
+            android:permission="com.example.lenovo.myapplication.permission.MYINTENTSERVICE"/>
+
+     <!--   <service
+            android:name=".services.backend.MyIntentService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":my_process" />-->
+
     </application>
 
 </manifest>

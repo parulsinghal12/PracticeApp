@@ -17,4 +17,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="format">%1$td/%1$tm/%1$tY</string>
+    <string name="title_activity_service">Services</string>
+    <string name="downloading">downloading service started..</string>
+    <string name="downloaded">download complete!</string>
+    <string name="dummy_button">Click</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

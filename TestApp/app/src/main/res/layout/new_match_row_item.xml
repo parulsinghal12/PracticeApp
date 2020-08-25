@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
 
         <variable
@@ -28,6 +29,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:tooltipText="Date"
+                    tools:text="20-08"
                     android:text="@{model.dateTimeGMT}"
                     android:layout_centerVertical="true"
                     android:paddingLeft="5dp"
@@ -42,7 +44,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_centerVertical="true"
                     android:textSize="15sp"
-                    android:tooltipText="Type"
+                    tools:text="tsdfsdfdsfsdf"
                     android:text="@{model.type}"/>
             </RelativeLayout>
             <RelativeLayout
