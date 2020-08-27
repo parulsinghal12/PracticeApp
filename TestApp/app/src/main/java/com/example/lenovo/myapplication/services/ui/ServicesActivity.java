@@ -16,6 +16,8 @@ import com.example.lenovo.myapplication.BuildConfig;
 import com.example.lenovo.myapplication.R;
 import com.example.lenovo.myapplication.databinding.ActivityServicesBinding;
 import com.example.lenovo.myapplication.services.backend.BoundService;
+import com.example.lenovo.myapplication.services.backend.Constants;
+import com.example.lenovo.myapplication.services.backend.IntentServiceResultReciever;
 import com.example.lenovo.myapplication.services.backend.MyIntentService;
 import com.example.lenovo.myapplication.services.backend.StartService;
 
@@ -24,7 +26,6 @@ import androidx.databinding.DataBindingUtil;
 
 import static com.example.lenovo.myapplication.services.backend.MyIntentService.ACTION_DWNLD;
 import static com.example.lenovo.myapplication.services.backend.MyIntentService.EXTRA_PARAM1;
-import static com.example.lenovo.myapplication.services.backend.MyIntentService.EXTRA_PARAM2;
 
 public class ServicesActivity extends AppCompatActivity {
 
@@ -166,10 +167,12 @@ public class ServicesActivity extends AppCompatActivity {
 
     //+++++++++++++++++++ INTENT SERVICE +++++++++++++++++++++++//
     public void onstartIntentServiceBtnClick(View view){
+        IntentServiceResultReciever resultReciever = new IntentServiceResultReciever(new Handler());
+        resultReciever.setCallBack(new MyServiceCallback());
+
         Intent intent = new Intent(this, MyIntentService.class);
         intent.setAction(ACTION_DWNLD);
-        intent.putExtra(EXTRA_PARAM1, "param1");
-        intent.putExtra(EXTRA_PARAM2, "param2");
+        intent.putExtra(EXTRA_PARAM1, resultReciever);
         startService(intent);
     }
 
@@ -182,6 +185,7 @@ public class ServicesActivity extends AppCompatActivity {
         }
     }
 
+    //One way using BR other way will be result receiver
     private static final String ACTION_CUSTOM_BROADCAST =
             BuildConfig.APPLICATION_ID + ".DWNLD_STATUS_SUCCESSFUL";
     private BroadcastReceiver mServiceBroadcastReceiver = new BroadcastReceiver() {
@@ -190,10 +194,28 @@ public class ServicesActivity extends AppCompatActivity {
             String action = intent.getAction();
             Log.d(TAG,"mServiceBroadcastReceiver == ");
             if (action.equals(ACTION_CUSTOM_BROADCAST))
-                showDownloadStatus(true);
-
+                Log.d(TAG,"ACTION_CUSTOM_BROADCAST downloaded");
+                //showDownloadStatus(true);
 
         }
     };
+
+    private class MyServiceCallback implements IntentServiceResultReciever.IntentSrvcResultReceiverCallBack {
+        @Override
+        public void onError(int errorCode) {
+            binding.downloadStatusTv.setText("Download Failed");
+        }
+
+        @Override
+        public void onSuccess(String data) {
+            Log.d(TAG,"MyServiceCallback - onSuccess");
+            binding.downloadStatusTv.setText("Downloaded");
+            Intent i = new Intent(ServicesActivity.this,ServiceResponseActivity.class);
+            i.putExtra(Constants.DOWNLOAD_PATH,data);
+            startActivity(i);
+        }
+    }
+
+
     //+++++++++++++++++++ INTENT SERVICE +++++++++++++++++++++++//
 }

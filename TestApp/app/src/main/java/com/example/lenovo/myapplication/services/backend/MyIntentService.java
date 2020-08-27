@@ -3,6 +3,7 @@ package com.example.lenovo.myapplication.services.backend;
 import android.app.IntentService;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.os.ResultReceiver;
 import android.util.Log;
 
 /**
@@ -57,9 +58,8 @@ public class MyIntentService extends IntentService {
         if (intent != null) {
             final String action = intent.getAction();
             if (ACTION_DWNLD.equals(action)) {
-                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionFoo(param1, param2);
+                final ResultReceiver resultRecvr = intent.getParcelableExtra(EXTRA_PARAM1);
+                handleActionFoo(resultRecvr);
             }
         }
     }
@@ -68,7 +68,7 @@ public class MyIntentService extends IntentService {
      * Handle action Foo in the provided background thread with the provided
      * parameters.
      */
-    private void handleActionFoo(String param1, String param2) {
+    private void handleActionFoo(ResultReceiver param1) {
         //main logic:
         Log.d(TAG,"handleActionFoo");
 
@@ -80,15 +80,7 @@ public class MyIntentService extends IntentService {
                 e.printStackTrace();
             }
         }
-        Utils.downloadFileFromIntentService(getApplicationContext());
+        Utils.downloadFileFromIntentService(getApplicationContext(),param1);
     }
 
-    /**
-     * Handle action Baz in the provided background thread with the provided
-     * parameters.
-     */
-    private void handleActionBaz(String param1, String param2) {
-
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-}
+  }

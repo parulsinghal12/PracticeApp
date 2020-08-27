@@ -18,7 +18,6 @@ import java.io.FileDescriptor;
 import java.io.PrintWriter;
 
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 public class StartService extends Service {
 
@@ -28,7 +27,7 @@ public class StartService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         //TODO do something useful
         Log.d("StartService" ,"onStartCommand started");
-
+        showDownloadingNotification();
 
         for(int i = 0;i < 10; i++){
             try {
@@ -48,7 +47,6 @@ public class StartService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        showNotification();
     }
 
     @Override
@@ -109,7 +107,7 @@ public class StartService extends Service {
         return null;
     }
 
-    private void showNotification() {
+    private void showDownloadingNotification() {
         String text = getText(R.string.downloading).toString();
 
         // The PendingIntent to launch our activity if the user selects this notification
@@ -118,10 +116,10 @@ public class StartService extends Service {
         final PendingIntent pendingIntent  = PendingIntent.getActivity(
                 this, 0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        /*notificationManager =
+
+        notificationManager =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        createChannel(notificationManager);*/
+        createChannel(notificationManager);
         String CHANNEL_ID = "my_channel_01";
         // Set the info for the views that show in the notification panel.
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
@@ -132,19 +130,17 @@ public class StartService extends Service {
                 .setContentText(text)  // the contents of the entry
                 .setContentIntent(pendingIntent ) ; // The intent to send when the entry is clicked
 
-
-
         // Send the notification.
         notificationManager.notify(1,notificationBuilder.build());
     }
     //https://www.aanandshekharroy.com/articles/2019-01/bound-services-in-android
 
     private void createChannel(NotificationManager notificationManager) {
-        String name = "FileDownload";
+        String id = "my_channel_01";
         String description = "Notifications for download status";
         int importance = NotificationManager.IMPORTANCE_DEFAULT;
 
-        NotificationChannel mChannel = new NotificationChannel(name, name, importance);
+        NotificationChannel mChannel = new NotificationChannel(id, description, importance);
         mChannel.setDescription(description);
         mChannel.enableLights(true);
         mChannel.setLightColor(Color.BLUE);

@@ -2,11 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.lenovo.myapplication">
 
-
-    <permission android:name="com.example.lenovo.myapplication.permission.MYINTENTSERVICE"
-        android:protectionLevel="normal"/>
+    <permission
+        android:name="com.example.lenovo.myapplication.permission.MYINTENTSERVICE"
+        android:protectionLevel="normal" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -18,9 +19,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-
-
+        android:theme="@style/AppTheme"
+        android:requestLegacyExternalStorage="true">
+        <activity android:name=".services.ui.ServiceResponseActivity"></activity>
         <activity android:name=".services.ui.ServicesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -66,16 +67,9 @@
             android:label="start service" />
         <service
             android:name=".services.backend.MyIntentService"
-            android:exported="true"
-            android:enabled="true"
-            android:permission="com.example.lenovo.myapplication.permission.MYINTENTSERVICE"/>
-
-     <!--   <service
-            android:name=".services.backend.MyIntentService"
             android:enabled="true"
             android:exported="true"
-            android:process=":my_process" />-->
-
+            android:permission="com.example.lenovo.myapplication.permission.MYINTENTSERVICE" />
     </application>
 
 </manifest>
