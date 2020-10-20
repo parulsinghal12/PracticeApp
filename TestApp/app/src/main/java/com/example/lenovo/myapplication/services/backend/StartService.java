@@ -39,7 +39,7 @@ public class StartService extends Service {
         }
 
         Utils.downloadFile(getApplicationContext());
-        //stopSelf();
+        //stopSelf(); -> currenlty called from activity(which sometimes crashes)
         Log.d("StartService" ,"onStartCommand ends");
         return StartService.START_NOT_STICKY;
     }

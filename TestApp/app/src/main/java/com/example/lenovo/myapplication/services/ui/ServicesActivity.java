@@ -12,7 +12,6 @@ import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 
-import com.example.lenovo.myapplication.BuildConfig;
 import com.example.lenovo.myapplication.R;
 import com.example.lenovo.myapplication.databinding.ActivityServicesBinding;
 import com.example.lenovo.myapplication.services.backend.BoundService;
@@ -20,6 +19,7 @@ import com.example.lenovo.myapplication.services.backend.Constants;
 import com.example.lenovo.myapplication.services.backend.IntentServiceResultReciever;
 import com.example.lenovo.myapplication.services.backend.MyIntentService;
 import com.example.lenovo.myapplication.services.backend.StartService;
+import com.google.firebase.BuildConfig;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -98,7 +98,7 @@ public class ServicesActivity extends AppCompatActivity {
     //+++++++++++++++++++ BOUND SERVICE +++++++++++++++++++++++//
 
     // service binding when button is clicked
-    // if service needs to be binded(for quicker action) as soon as activity is launched put it under onStart().
+    // if service needs to be binded(for quicker action) as soon as activity is launched call startservice() under onStart().
     public void onStartBoundServiceBtnClick(View view){
         //++bind with bound service :
         Intent intent = new Intent(this, BoundService.class);
