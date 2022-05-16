@@ -60,7 +60,7 @@
             </intent-filter>
             -->
         </activity>
-
+<!-- temp changes to test github branches -->
         <service
             android:name=".services.backend.StartService"
             android:icon="@drawable/start_service"
