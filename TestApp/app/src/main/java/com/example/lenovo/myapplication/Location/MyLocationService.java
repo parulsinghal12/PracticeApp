@@ -49,7 +49,7 @@ public class MyLocationService {
             public void onLocationResult(LocationResult locationResult) {
                 super.onLocationResult(locationResult); // why? this. is. retarded. Android.
                 Location currentLocation = locationResult.getLastLocation();
-
+                // new comments - branching purpose
                 GPSPoint gpsPoint = new GPSPoint(currentLocation.getLatitude(), currentLocation.getLongitude());
                 Log.i(TAG, "Location Callback results: " + gpsPoint);
                 if (null != workable)
