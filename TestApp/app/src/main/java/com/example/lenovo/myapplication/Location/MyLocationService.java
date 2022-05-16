@@ -51,7 +51,7 @@ public class MyLocationService {
                 Location currentLocation = locationResult.getLastLocation();
 
                 GPSPoint gpsPoint = new GPSPoint(currentLocation.getLatitude(), currentLocation.getLongitude());
-                Log.i(TAG, "Location Callback results: " + gpsPoint);
+                Log.i(TAG, "Location Callback results: " + gpsPoint);//comment
                 if (null != workable)
                     workable.work(gpsPoint);
             }
